@@ -14,7 +14,7 @@
   `Spring Agent` 项目可分析基于以下框架开发的SpringBoot应用, 其它版本需自行测试
 
   | 技术组件        | 已测试版本                                 |
-                |-------------|---------------------------------------|
+                                      |-------------|---------------------------------------|
   | JDK         | JDK1.8 至 JDK21                        |
   | Spring Boot | `2.3.12.RELEASE`, `3.2.2`  (理论支持所有版本) |
 
@@ -101,7 +101,7 @@ JavaAgent是一种特殊的Java程序，是Instrumentation的客户端。它与�
 
 > 3. 创建Bean耗时统计示意图
 
-![img.png](images/MethodInvoke.png)
+![MethodInvoke](images/MethodInvoke.png)
 
 ### 2.3  组件加载耗时统计
 
@@ -127,7 +127,14 @@ JavaAgent是一种特殊的Java程序，是Instrumentation的客户端。它与�
   com.lcsc.wm.agent.plugin.core.analysis.component.ComponentInitializedListener
   ```
 
-### 2.4 性能分析火焰图
+### 2.4 类加载器加载Jar包分析
+
+> 1. 借助 `Spring Agent` 类加载器加载Jar包列表, 可辅助分析哪些jar包可废弃, 废弃jar包可减少类加载器扫描类的耗时, 从而提高启动速度
+
+* 示例
+  ![UnloadedJar](images/UnloadedJar.png)
+
+### 2.5 性能分析火焰图
 
 > 1. 借助 `Spring Agent` 绘制性能火焰图来分析热点代码
 
