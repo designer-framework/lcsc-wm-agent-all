@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: 'application-consumer'
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: nacos.didispace.com
+        #namespace: d2ca62d0-2fcb-4155-b38e-30f6f908caf1
+  resources:
+    cache:
+      cachecontrol:
+        cache-private: true
+        max-age: 3600
+
+app:
+  id: ${spring.application.name}
+apollo:
+  cache-dir: 'D:\TeamWork\arthas-all\spring-boot-web-test\src\main\resources\tests'
+  autoUpdateInjectedSpringProperties: true
+  access-key:
+    secret: d7e98dedace8409fca9c956b29cda4b579681f33f54e1ea77ec5589c28419001
+  bootstrap:
+    enabled: true
+    namespaces: application #, business, auth.yml, 1, 1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,18,19,20,21,22,23
+    eagerLoad:
+      enabled: true
+
+# logging path
+logging:
+  config: classpath:logback.xml
+  file:
+    path: './logs'
+
+
+server:
+  port: 8995

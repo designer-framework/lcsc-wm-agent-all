@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.lcsc.wm.agent.plugin.core.configuration.SpringPluginsPropertiesAutoConfiguration,\
+  com.lcsc.wm.agent.plugin.core.configuration.SpringApplicationReporterAutoConfiguration,\
+  com.lcsc.wm.agent.plugin.core.configuration.SpringApplicationAdvisorAutoConfiguration,\
+  com.lcsc.wm.agent.plugin.core.configuration.SpringMethodInvokeAutoConfiguration,\
+  com.lcsc.wm.agent.plugin.core.configuration.SpringComponentMethodInvokeAutoConfiguration,\
+  com.lcsc.wm.agent.plugin.core.configuration.trubo.SpringComponentTurboAutoConfiguration

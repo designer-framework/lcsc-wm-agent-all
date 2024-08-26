@@ -1,0 +1,10 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  com.lcsc.wm.agent.core.configuration.env.ReplaceIdeaPropertiesEnvironmentPostProcessor,\
+  com.lcsc.wm.agent.core.configuration.env.AgentHomeEnvironmentPostProcessor,\
+  com.lcsc.wm.agent.core.configuration.env.AgentConfigFileEnvironmentPostProcessor
+#
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.lcsc.wm.agent.core.configuration.env.AgentPropertiesAutoConfiguration,\
+  com.lcsc.wm.agent.core.configuration.AgentAutoConfiguration,\
+  com.lcsc.wm.agent.core.configuration.advisor.AgentMethodInvokeAutoConfiguration,\
+  com.lcsc.wm.agent.core.configuration.lifecycle.AgentLifeCycleAutoConfiguration

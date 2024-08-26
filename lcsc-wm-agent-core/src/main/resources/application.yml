@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: 'agent'
+  profiles:
+    active: agent
+  config:
+    use-legacy-processing: true
+  main:
+    allow-bean-definition-overriding: false

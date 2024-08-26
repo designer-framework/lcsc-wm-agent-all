@@ -1,0 +1,54 @@
+<assembly xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.1"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.1 http://maven.apache.org/xsd/assembly-1.1.1.xsd">
+    <id>bin</id>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <formats>
+        <format>dir</format>
+        <format>zip</format>
+    </formats>
+
+    <files>
+        <file>
+            <source>../lcsc-wm-agent-spy/target/lcsc-wm-agent-spy.jar</source>
+            <destName>lcsc-wm-agent-spy.jar</destName>
+        </file>
+
+        <file>
+            <source>../lcsc-wm-agent-core/target/lcsc-wm-agent-core-shade.jar</source>
+            <destName>lcsc-wm-agent-core.jar</destName>
+        </file>
+        <file>
+            <source>../lcsc-wm-agent-core/src/main/resources/logback.xml</source>
+            <destName>logback.xml</destName>
+        </file>
+        <file>
+            <source>../lcsc-wm-agent-core/src/main/resources/application-agent.yml</source>
+            <destName>application-agent.yml</destName>
+        </file>
+
+        <file>
+            <source>../lcsc-wm-agent/target/lcsc-wm-agent-jar-with-dependencies.jar</source>
+            <destName>lcsc-wm-agent.jar</destName>
+        </file>
+
+        <file>
+            <source>../lcsc-wm-agent-framework/target/lcsc-wm-agent-framework.jar</source>
+            <destName>lcsc-wm-agent-framework.jar</destName>
+        </file>
+
+        <file>
+            <source>
+                ../lcsc-wm-agent-spring-boot-startup-analysis/target/lcsc-wm-agent-spring-boot-startup-analysis.jar
+            </source>
+            <destName>/plugins/lcsc-wm-agent-spring-boot-startup-analysis.jar</destName>
+        </file>
+        <file>
+            <source>
+                ../lcsc-wm-agent-spring-boot-startup-analysis-plugin-template/target/lcsc-wm-agent-spring-boot-startup-analysis-plugin-template.jar
+            </source>
+            <destName>/plugins/lcsc-wm-agent-spring-boot-startup-analysis-plugin-template.jar</destName>
+        </file>
+    </files>
+
+</assembly>

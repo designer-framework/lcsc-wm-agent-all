@@ -1,0 +1,47 @@
+#端口
+server:
+  port: 9999
+
+#方法调用统计
+spring:
+  profiles:
+    include: plugins
+  agent:
+    allow-overriding-default-properties: true
+    output:
+      home: agent-output
+      output-path: '${spring.agent.output.home}/output'
+    #类加载器增强(解决SPY类加载不到的问题)
+    class-loaders:
+      enhance-loaders:
+        - java.lang.ClassLoader
+    #火焰图数据采集, 默认不开启
+    flame-graph:
+      enabled: true
+      high-precision: false
+      highlight-package:
+        - '.lcsc.'
+      names: main
+      interval: 1
+      #高精度模式开启的情况下, 会采集所有栈帧
+      skip-trace:
+        - java.agent
+        - com.lcsc.wm.agent
+    #方法调用统计
+    method-invoke:
+      advisors:
+        - method: java.net.URLClassLoader#findResource(java.lang.String)
+          can-retransform: true
+        #- method: sun.misc.Launcher$AppClassLoader#loadClass(java.lang.String, boolean)
+        #  can-retransform: true
+    #启动速度优化
+    turbo:
+      enabled-by-default: false
+
+logging:
+  config: 'classpath:logback.xml'
+  file:
+    path: ./logs
+  level:
+    root: info
+    com.lcsc.wm.agent.core: info

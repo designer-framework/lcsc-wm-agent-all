@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+
+    <property name="AGENT_LOG_PATH" value="${AGENT_LOG_PATH:-${user.home}/logs/agent}"/>
+    <property name="AGENT_LOG_FILE"
+              value="${AGENT_LOG_FILE:-${AGENT_LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/agent.log}"/>
+
+    <appender name="CONSOLE" class="com.alibaba.arthas.deps.ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[SPRING-AGENT] %d{HH:mm:ss:SSS} [%thread] %-5level %logger: %msg%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!-- arthas.log -->
+    <appender name="AGENT" class="com.alibaba.arthas.deps.ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${AGENT_LOG_FILE}</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss:SSS} [%thread] %-5level %logger: %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="com.alibaba.arthas.deps.ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${AGENT_LOG_FILE}.%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <maxFileSize>1MB</maxFileSize>
+            <totalSizeCap>10MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="AGENT"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>

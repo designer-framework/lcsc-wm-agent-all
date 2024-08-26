@@ -1,0 +1,12 @@
+spring:
+  agent:
+    #方法调用统计
+    method-invoke:
+      #屏蔽类加载器增强
+      advisors:
+        #- method: java.net.URLClassLoader#findResource(java.lang.String)
+        #  can-retransform: true
+        #- method: sun.misc.Launcher$AppClassLoader#loadClass(java.lang.String, boolean)
+        #  can-retransform: true
+    turbo:
+      enabled-by-default: false
