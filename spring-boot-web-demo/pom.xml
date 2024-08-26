@@ -17,13 +17,13 @@
         <maven-plugin.version>3.2.1</maven-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!--<spring-boot.version>2.3.12.RELEASE</spring-boot.version>
+        <spring-boot.version>2.3.12.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR12</spring-cloud.version>
-        <spring-cloud-alibaba.version>2.2.10-RC1</spring-cloud-alibaba.version>-->
+        <spring-cloud-alibaba.version>2.2.10-RC1</spring-cloud-alibaba.version>
 
-        <spring-boot.version>3.2.2</spring-boot.version>
+        <!--<spring-boot.version>3.2.2</spring-boot.version>
         <spring-cloud.version>2023.0.0</spring-cloud.version>
-        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>-->
 
         <spring-cloud-designer.version>v1</spring-cloud-designer.version>
         <lombok.version>1.18.30</lombok.version>
@@ -84,16 +84,16 @@
         </dependency>
 
         <!-- SpringBoot2对应Swagger接口文档 -->
-        <!--<dependency>
+        <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-        </dependency>-->
+        </dependency>
 
         <!-- SpringBoot3对应Swagger接口文档 -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-        </dependency>
+        </dependency>-->
 
     </dependencies>
 

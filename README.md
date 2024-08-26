@@ -22,14 +22,14 @@
 最后在需要进行性能分析的应用JVM启动参数中添加`-javaagent`配置, 示例如下：
 
 ```
-java -javaagent:D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar -jar spring-boot-web-demo-1.0.0.jar
+java -javaagent:D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar=myKey=myVal -jar spring-boot-web-demo-1.0.0.jar
 ```
 
 > javaagent配置说明:
 > 1. 前半部分为`SpringAgent`jar包所在的路径, 通常在当前maven项目的`lcsc-wm-agent-packaging/target/agent-bin`路径下  
      示例: D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar
-> 2. 如果需要为`SpringAgent`应用添加应用启动参数 `myKey=myVal`, 可在jar包路径后追加参数: =myKey=myVal
-     效果类似JVM启动参数: -DmyKey=myVal
+> 2. 为`SpringAgent`应用添加应用启动参数 `myKey=myVal`, 在jar包路径后追加参数: myKey=myVal, 参见上述配置。
+     效果类似JVM启动参数: -DmyKey=myVal`
 
 `SpringAgent`目录结构
 
@@ -51,6 +51,8 @@ java -javaagent:D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\age
 |------------> 1. 为SpringBoot应用量身打造, 用于分析SpringBoot应用从启动直至启动完成期间的高耗时代码. 
 |--- lcsc-wm-agent-spring-boot-startup-analysis-plugin-template * 开发插件使用此模板(内置参考示例)
 |------------> 1. 以该项目作为插件开发模板, 可以像写传统业务代码一样完成对SpringAgent功能的拓展
+|--- spring-boot-web-demo                                       * 应用启动耗时性能分析示例项目
+|------------> 1. 启动项目时增加JVM启动参数 -Denv=DEV -javaagent:此处改成lcsc-wm-agent-core.jar包的绝对路径
 ------------------------------------------------------------------------------------------------------------------------------------
 ```
 
