@@ -137,8 +137,15 @@ public class SpringBeanCreationPointcutAdvisor extends SimpleMethodInvokePointcu
 
             BeanInitMethodInvokeLifeCycleEvent beanInitMethodInvokeEvent = (BeanInitMethodInvokeLifeCycleEvent) beanCreationLifeCycleEvent;
 
-            springAgentStatistics.fillBeanCreate(beanInitMethodInvokeEvent.getBeanName(), beanCreateVO -> {
-                beanCreateVO.addBeanLifeCycle(SpringBeanLifeCycleEnum.AfterPropertiesSet, beanInitMethodInvokeEvent.getLifeCycleDurations());
+            SpringBeanVO springBeanVO = beanCreateStack.get().peek();
+            springAgentStatistics.fillBeanCreate(springBeanVO.getName(), beanCreateVO -> {
+
+                if (((BeanInitMethodInvokeLifeCycleEvent) beanCreationLifeCycleEvent).getType() == 1) {
+                    beanCreateVO.addBeanLifeCycle(SpringBeanLifeCycleEnum.AfterPropertiesSet, beanInitMethodInvokeEvent.getLifeCycleDurations());
+                } else {
+                    beanCreateVO.addBeanLifeCycle(SpringBeanLifeCycleEnum.PostConstruct, beanInitMethodInvokeEvent.getLifeCycleDurations());
+                }
+
             });
 
         } else if (beanCreationLifeCycleEvent instanceof SmartInstantiateSingletonLifeCycleEvent) {

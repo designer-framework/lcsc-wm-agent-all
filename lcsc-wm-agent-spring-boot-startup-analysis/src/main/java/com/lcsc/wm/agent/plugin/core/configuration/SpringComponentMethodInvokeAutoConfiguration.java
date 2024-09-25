@@ -4,8 +4,8 @@ import com.lcsc.wm.agent.core.interceptor.SimpleSpyInterceptorApi;
 import com.lcsc.wm.agent.framework.vo.ClassMethodInfo;
 import com.lcsc.wm.agent.plugin.core.analysis.bean.InitializingSingletonsPointcutAdvisor;
 import com.lcsc.wm.agent.plugin.core.analysis.bean.SpringBeanAopProxyPointcutAdvisor;
-import com.lcsc.wm.agent.plugin.core.analysis.bean.SpringDestroyAnnotationBeanPointcutAdvisor;
 import com.lcsc.wm.agent.plugin.core.analysis.bean.SpringInitAnnotationBeanPointcutAdvisor;
+import com.lcsc.wm.agent.plugin.core.analysis.bean.SpringInitializingBeanPointcutAdvisor;
 import com.lcsc.wm.agent.plugin.core.analysis.component.*;
 import com.lcsc.wm.agent.plugin.core.enums.SpringComponentEnum;
 import com.lcsc.wm.agent.plugin.core.vo.SpringAgentStatistics;
@@ -112,6 +112,7 @@ public class SpringComponentMethodInvokeAutoConfiguration {
     }
 
     /**
+     * @see javax.annotation.PostConstruct
      * @see org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor#postProcessBeforeInitialization(java.lang.Object, java.lang.String)
      * @see org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor.LifecycleMetadata#invokeInitMethods(java.lang.Object, java.lang.String)
      */
@@ -124,12 +125,17 @@ public class SpringComponentMethodInvokeAutoConfiguration {
         );
     }
 
+    /**
+     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+     * @see org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeInitMethods(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)
+     */
     @Bean
-    public SpringDestroyAnnotationBeanPointcutAdvisor springDestroyAnnotationBeanPointcutAdvisor() {
-        return new SpringDestroyAnnotationBeanPointcutAdvisor(
-                SpringComponentEnum.DESTROY_ANNOTATION_BEAN
-                , ClassMethodInfo.create("org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor$LifecycleMetadata#invokeDestroytMethods(java.lang.Object, java.lang.String)")
-                , SpringDestroyAnnotationBeanPointcutAdvisor.DestroyMethodSpyInterceptorApi.class
+    public SpringInitializingBeanPointcutAdvisor springInitializingBeanPointcutAdvisor() {
+        return new SpringInitializingBeanPointcutAdvisor(
+                SpringComponentEnum.INIT_ANNOTATION_BEAN
+                //, ClassMethodInfo.create("org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeInitMethods(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)")
+                , ClassMethodInfo.create("**#afterPropertiesSet()")
+                , SpringInitializingBeanPointcutAdvisor.InitializingBeanSpyInterceptorApi.class
         );
     }
 

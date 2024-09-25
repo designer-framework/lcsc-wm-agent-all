@@ -31,7 +31,7 @@
         <apollo.version>2.1.0</apollo.version>
         <xxljob.version>2.4.1</xxljob.version>
         <commons-io.version>2.16.1</commons-io.version>
-        <hutool.version>5.8.9</hutool.version>
+        <hutool.version>5.8.20</hutool.version>
         <swagger.version>2.9.2</swagger.version>
         <openapi.version>2.6.0</openapi.version>
         <nacos.client.version>1.4.1</nacos.client.version>
@@ -95,6 +95,31 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>-->
 
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>5.8.9</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
+            <version>5.8.9</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
+            <version>5.8.9</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-log</artifactId>
+            <version>5.8.9</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-setting</artifactId>
+            <version>5.8.9</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

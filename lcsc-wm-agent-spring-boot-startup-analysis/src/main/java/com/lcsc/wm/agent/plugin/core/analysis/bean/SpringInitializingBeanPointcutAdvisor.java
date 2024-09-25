@@ -17,30 +17,25 @@ import com.lcsc.wm.agent.plugin.core.vo.InitializedComponent;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor;
 
 import java.agent.SpyAPI;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Collections;
 
 /**
- * @see InitializingBean
- * @see javax.annotation.PreDestroy
- * @see InitDestroyAnnotationBeanPostProcessor.LifecycleMetadata#invokeDestroyMethods(Object, String)
+ * @see org.springframework.beans.factory.InitializingBean
+ * @see org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeInitMethods(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)
  * @see
  */
-public class SpringDestroyAnnotationBeanPointcutAdvisor extends AbstractComponentChildCreatorPointcutAdvisor implements DisposableBean, InitializingBean {
-
-    private static final String destroyMethods = "destroyMethods";
+public class SpringInitializingBeanPointcutAdvisor extends AbstractComponentChildCreatorPointcutAdvisor implements DisposableBean, InitializingBean {
 
     /**
      * @param componentEnum
      * @param classMethodInfo
      * @param interceptor
-     * @see InitDestroyAnnotationBeanPostProcessor.LifecycleMetadata#invokeDestroyMethods(Object, String)
+     * @see org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeInitMethods(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)
      */
-    public SpringDestroyAnnotationBeanPointcutAdvisor(ComponentEnum componentEnum, ClassMethodInfo classMethodInfo, Class<? extends SpyInterceptorApi> interceptor) {
+    public SpringInitializingBeanPointcutAdvisor(ComponentEnum componentEnum, ClassMethodInfo classMethodInfo, Class<? extends SpyInterceptorApi> interceptor) {
         super(componentEnum, classMethodInfo, interceptor);
     }
 
@@ -52,9 +47,10 @@ public class SpringDestroyAnnotationBeanPointcutAdvisor extends AbstractComponen
         );
     }
 
+    @SneakyThrows
     @Override
     public boolean isReady(InvokeVO invokeVO) {
-        return super.isReady(invokeVO) && invokeVO.getAttach().get(destroyMethods) != null;
+        return super.isReady(invokeVO);
     }
 
     @Override
@@ -67,36 +63,28 @@ public class SpringDestroyAnnotationBeanPointcutAdvisor extends AbstractComponen
         super.atMethodInvokeAfter(invokeVO, methodInvokeVO);
 
         //记录耗时
-        BeanLifeCycleDuration beanLifeCycleDuration = BeanLifeCycleDuration.create(String.valueOf(invokeVO.getAttach().get(destroyMethods)), methodInvokeVO);
+        BeanLifeCycleDuration beanLifeCycleDuration = BeanLifeCycleDuration.create(invokeVO.getClazz().getName() + "#afterPropertiesSet", methodInvokeVO);
         applicationEventPublisher.publishEvent(
-                new BeanInitMethodInvokeLifeCycleEvent(this, String.valueOf(invokeVO.getParams()[1]), beanLifeCycleDuration)
+                new BeanInitMethodInvokeLifeCycleEvent(this, invokeVO.getClazz().getName(), beanLifeCycleDuration, 1)
         );
     }
 
     @Override
     protected String childName(InvokeVO invokeVO) {
-        return String.valueOf(invokeVO.getParams()[1]);
+        return invokeVO.getTarget().getClass().getName();
     }
 
-    public static class DestroyMethodSpyInterceptorApi implements SpyInterceptorApi {
+    public static class InitializingBeanSpyInterceptorApi implements SpyInterceptorApi {
 
         @SneakyThrows
         @AtEnter(inline = true)
         public static void atEnter(
                 @Binding.This Object target, @Binding.Class Class<?> clazz, @Binding.MethodName String methodName, @Binding.MethodDesc String methodDesc, @Binding.Args Object[] args
-                , @Binding.Field(name = "destroyMethods") Collection<?> initMethods
         ) {
 
-            if (!initMethods.isEmpty()) {
-
-                Map<String, Object> attach = new HashMap<>();
-                attach.put("destroyMethods", "true");
-                SpyAPI.atEnter(clazz, methodName, methodDesc, target, args, attach);
-
-            } else {
-
+            Class<?> initializingBeanClass = clazz.getClassLoader().loadClass("org.springframework.beans.factory.InitializingBean");
+            if (initializingBeanClass.isAssignableFrom(clazz)) {
                 SpyAPI.atEnter(clazz, methodName, methodDesc, target, args, Collections.emptyMap());
-
             }
 
         }
@@ -106,33 +94,11 @@ public class SpringDestroyAnnotationBeanPointcutAdvisor extends AbstractComponen
         public static void atExit(
                 @Binding.This Object target, @Binding.Class Class<?> clazz, @Binding.MethodName String methodName, @Binding.MethodDesc String methodDesc, @Binding.Args Object[] args
                 , @Binding.Return Object returnObj
-                //Collection<org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor$LifecycleElement> destroyMethods
-                , @Binding.Field(name = "destroyMethods") Collection<?> destroyMethods
         ) {
 
-            if (!destroyMethods.isEmpty()) {
-
-                List<String> methods = new LinkedList<>();
-                for (Object lifecycleElement : destroyMethods) {
-
-                    /**
-                     * @see InitDestroyAnnotationBeanPostProcessor.LifecycleElement#getMethod()
-                     */
-                    Method getMethod = lifecycleElement.getClass().getMethod("getMethod");
-                    Method initMethod = (Method) getMethod.invoke(lifecycleElement);
-                    methods.add(initMethod.getName());
-
-                }
-
-                Map<String, Object> attach = new HashMap<>();
-                attach.put("destroyMethods", args[1] + "#" + String.join(",", methods));
-
-                SpyAPI.atExit(clazz, methodName, methodDesc, target, args, returnObj, attach);
-
-            } else {
-
+            Class<?> initializingBeanClass = clazz.getClassLoader().loadClass("org.springframework.beans.factory.InitializingBean");
+            if (initializingBeanClass.isAssignableFrom(clazz)) {
                 SpyAPI.atExit(clazz, methodName, methodDesc, target, args, returnObj, Collections.emptyMap());
-
             }
 
         }

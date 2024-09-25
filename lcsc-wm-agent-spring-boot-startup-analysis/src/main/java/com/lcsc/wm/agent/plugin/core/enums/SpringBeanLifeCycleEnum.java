@@ -7,6 +7,10 @@ public enum SpringBeanLifeCycleEnum {
      */
     AfterPropertiesSet,
     /**
+     * @see org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeInitMethods(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)
+     */
+    PostConstruct,
+    /**
      * @see org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator#wrapIfNecessary(Object, String, Object)
      */
     CreateAopProxyClass,

@@ -61,15 +61,15 @@ public class AgentSpringBootContainer implements AgentContainer, DisposableBean,
         }
 
         springApplication.setDefaultProperties(defaultPropertiesMap);
-        
-        return springApplication.run();
+
+        return springApplication.run(getCommandLineArgs(argsMap));
     }
 
     /**
      * @param argsMap
      * @return
      * @see org.springframework.core.env.SimpleCommandLinePropertySource#SimpleCommandLinePropertySource(String...)
-     * 举例(配置a=2会注入到容器): -javaagent:D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar=;a=2
+     * 举例(配置spring.profiles.include=tests会注入到容器): -javaagent:D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar=;spring.profiles.include=tests;spring.env.test-02=test2
      */
     private static String[] getCommandLineArgs(Map<String, String> argsMap) {
         if (argsMap == null) {

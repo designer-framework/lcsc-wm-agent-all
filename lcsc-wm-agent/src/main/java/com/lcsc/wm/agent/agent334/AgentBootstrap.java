@@ -226,6 +226,7 @@ public class AgentBootstrap {
          * <pre>
          * AgentBootstrap bootstrap = AgentBootstrap.getInstance(inst);
          * </pre>
+         * @see com.lcsc.wm.agent.core.AgentBootstrap#getInstance(Instrumentation, String)
          */
         Class<?> bootstrapClass = agentLoader.loadClass(AGENT_BOOTSTRAP);
         Object bootstrap = bootstrapClass.getMethod(GET_INSTANCE, Instrumentation.class, String.class).invoke(null, inst, args);

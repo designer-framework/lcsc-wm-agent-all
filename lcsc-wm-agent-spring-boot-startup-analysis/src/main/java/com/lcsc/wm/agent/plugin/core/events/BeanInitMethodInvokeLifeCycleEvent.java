@@ -11,8 +11,19 @@ import lombok.Getter;
 @Getter
 public class BeanInitMethodInvokeLifeCycleEvent extends BeanCreationLifeCycleEvent {
 
+    /**
+     * 0: PostConstruct注解
+     * 1: InitializingBean
+     */
+    private final int type;
+
     public BeanInitMethodInvokeLifeCycleEvent(Object source, String beanName, BeanLifeCycleDuration lifeCycleDurations) {
+        this(source, beanName, lifeCycleDurations, 0);
+    }
+
+    public BeanInitMethodInvokeLifeCycleEvent(Object source, String beanName, BeanLifeCycleDuration lifeCycleDurations, int type) {
         super(source, beanName, lifeCycleDurations);
+        this.type = type;
     }
 
 }
