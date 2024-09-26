@@ -1,4 +1,4 @@
-import com.lcsc.profiling.web.tests.HutoolCopyTestsService;
+import com.lcsc.profiling.web.tests.copy.HutoolCopyTestsService;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -12,7 +12,7 @@
 
     <groupId>com.lcsc.wm</groupId>
     <artifactId>lcsc-wm-agent-all</artifactId>
-    <version>${revision}</version>
+    <version>1.0.0.RELEASE</version>
     <packaging>pom</packaging>
 
     <name>lcsc-wm-agent-all</name>
@@ -20,7 +20,7 @@
     <url>https://github.com/designer-framework/lcsc-wm-agent-all</url>
 
     <properties>
-        <revision>3.7.2</revision>
+        <spring-agent.vision>1.0.0.RELEASE</spring-agent.vision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <maven.compiler.target>1.8</maven.compiler.target>
