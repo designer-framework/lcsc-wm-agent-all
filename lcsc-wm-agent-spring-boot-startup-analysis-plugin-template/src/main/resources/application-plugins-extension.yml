@@ -1,5 +1,0 @@
-spring:
-  agent:
-    #方法调用统计
-    turbo:
-      enabled-by-default: false
