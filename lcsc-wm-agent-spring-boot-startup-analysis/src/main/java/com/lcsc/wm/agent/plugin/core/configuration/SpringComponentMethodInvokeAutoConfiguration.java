@@ -119,7 +119,7 @@ public class SpringComponentMethodInvokeAutoConfiguration {
     @Bean
     public SpringInitAnnotationBeanPointcutAdvisor springInitAnnotationBeanPointcutAdvisor() {
         return new SpringInitAnnotationBeanPointcutAdvisor(
-                SpringComponentEnum.INIT_ANNOTATION_BEAN
+                SpringComponentEnum.POST_CONSTRUCT_BEAN
                 , ClassMethodInfo.create("org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor$LifecycleMetadata#invokeInitMethods(java.lang.Object, java.lang.String)")
                 , SpringInitAnnotationBeanPointcutAdvisor.InitMethodSpyInterceptorApi.class
         );
@@ -132,7 +132,7 @@ public class SpringComponentMethodInvokeAutoConfiguration {
     @Bean
     public SpringInitializingBeanPointcutAdvisor springInitializingBeanPointcutAdvisor() {
         return new SpringInitializingBeanPointcutAdvisor(
-                SpringComponentEnum.INIT_ANNOTATION_BEAN
+                SpringComponentEnum.INITIALIZING_BEAN
                 //, ClassMethodInfo.create("org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeInitMethods(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)")
                 , ClassMethodInfo.create("**#afterPropertiesSet()")
                 , SpringInitializingBeanPointcutAdvisor.InitializingBeanSpyInterceptorApi.class

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @date : 2024-07-26 00:29
  */
 @Test
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class SmartInitializingSingletonAutoConfiguration {
 
     @Bean

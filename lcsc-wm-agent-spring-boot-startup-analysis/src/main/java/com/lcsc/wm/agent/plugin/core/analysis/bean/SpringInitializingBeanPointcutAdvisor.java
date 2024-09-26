@@ -10,8 +10,8 @@ import com.lcsc.wm.agent.framework.vo.ClassMethodInfo;
 import com.lcsc.wm.agent.framework.vo.InvokeVO;
 import com.lcsc.wm.agent.plugin.core.analysis.component.AbstractComponentChildCreatorPointcutAdvisor;
 import com.lcsc.wm.agent.plugin.core.enums.ComponentEnum;
-import com.lcsc.wm.agent.plugin.core.events.BeanInitMethodInvokeLifeCycleEvent;
 import com.lcsc.wm.agent.plugin.core.events.ComponentRootInitializedEvent;
+import com.lcsc.wm.agent.plugin.core.events.InitializingBeanMethodInvokeLifeCycleEvent;
 import com.lcsc.wm.agent.plugin.core.vo.BeanLifeCycleDuration;
 import com.lcsc.wm.agent.plugin.core.vo.InitializedComponent;
 import lombok.SneakyThrows;
@@ -65,7 +65,7 @@ public class SpringInitializingBeanPointcutAdvisor extends AbstractComponentChil
         //记录耗时
         BeanLifeCycleDuration beanLifeCycleDuration = BeanLifeCycleDuration.create(invokeVO.getClazz().getName() + "#afterPropertiesSet", methodInvokeVO);
         applicationEventPublisher.publishEvent(
-                new BeanInitMethodInvokeLifeCycleEvent(this, invokeVO.getClazz().getName(), beanLifeCycleDuration, 1)
+                new InitializingBeanMethodInvokeLifeCycleEvent(this, invokeVO.getClazz().getName(), beanLifeCycleDuration)
         );
     }
 

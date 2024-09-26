@@ -133,19 +133,22 @@ public class SpringBeanCreationPointcutAdvisor extends SimpleMethodInvokePointcu
                 beanCreateVO.addBeanLifeCycle(SpringBeanLifeCycleEnum.CreateAopProxyClass, beanAopProxyCreatedEvent.getLifeCycleDurations());
             });
 
-        } else if (beanCreationLifeCycleEvent instanceof BeanInitMethodInvokeLifeCycleEvent) {
+        } else if (beanCreationLifeCycleEvent instanceof PostConstructMethodInvokeLifeCycleEvent) {
 
-            BeanInitMethodInvokeLifeCycleEvent beanInitMethodInvokeEvent = (BeanInitMethodInvokeLifeCycleEvent) beanCreationLifeCycleEvent;
+            PostConstructMethodInvokeLifeCycleEvent beanInitMethodInvokeEvent = (PostConstructMethodInvokeLifeCycleEvent) beanCreationLifeCycleEvent;
 
             SpringBeanVO springBeanVO = beanCreateStack.get().peek();
             springAgentStatistics.fillBeanCreate(springBeanVO.getName(), beanCreateVO -> {
+                beanCreateVO.addBeanLifeCycle(SpringBeanLifeCycleEnum.PostConstruct, beanInitMethodInvokeEvent.getLifeCycleDurations());
+            });
 
-                if (((BeanInitMethodInvokeLifeCycleEvent) beanCreationLifeCycleEvent).getType() == 1) {
-                    beanCreateVO.addBeanLifeCycle(SpringBeanLifeCycleEnum.AfterPropertiesSet, beanInitMethodInvokeEvent.getLifeCycleDurations());
-                } else {
-                    beanCreateVO.addBeanLifeCycle(SpringBeanLifeCycleEnum.PostConstruct, beanInitMethodInvokeEvent.getLifeCycleDurations());
-                }
+        } else if (beanCreationLifeCycleEvent instanceof InitializingBeanMethodInvokeLifeCycleEvent) {
 
+            InitializingBeanMethodInvokeLifeCycleEvent initializingBeanMethodInvokeLifeCycleEvent = (InitializingBeanMethodInvokeLifeCycleEvent) beanCreationLifeCycleEvent;
+
+            SpringBeanVO springBeanVO = beanCreateStack.get().peek();
+            springAgentStatistics.fillBeanCreate(springBeanVO.getName(), beanCreateVO -> {
+                beanCreateVO.addBeanLifeCycle(SpringBeanLifeCycleEnum.AfterPropertiesSet, initializingBeanMethodInvokeLifeCycleEvent.getLifeCycleDurations());
             });
 
         } else if (beanCreationLifeCycleEvent instanceof SmartInstantiateSingletonLifeCycleEvent) {
