@@ -56,12 +56,12 @@ public class FirstService implements InitializingBean, SmartInitializingSingleto
         stopWatch.start("Spring");
         BeanUtils.copyProperties(source, target);
         stopWatch.stop();
-        log.error("SpringTaskTimeMillis: {}/ms", TimeUnit.NANOSECONDS.toMillis(stopWatch.getLastTaskTimeNanos()));
+        log.warn("SpringTaskTimeMillis: {}/ms", TimeUnit.NANOSECONDS.toMillis(stopWatch.getLastTaskTimeNanos()));
 
         stopWatch.start("Hutool");
         BeanUtil.copyProperties(source, target);
         stopWatch.stop();
-        log.error("HutoolTaskTimeMillis: {}/ms", TimeUnit.NANOSECONDS.toMillis(stopWatch.getLastTaskTimeNanos()));
+        log.warn("HutoolTaskTimeMillis: {}/ms", TimeUnit.NANOSECONDS.toMillis(stopWatch.getLastTaskTimeNanos()));
     }
 
     @Override

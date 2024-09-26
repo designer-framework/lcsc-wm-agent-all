@@ -187,7 +187,7 @@ public class ComponentInitializedListener implements ApplicationListener<Compone
                     if (!componentsRoot.containsKey(initializedComponent.getComponentName())) {
                         componentsRoot.put(initializedComponent.getComponentName(), initializedComponent);
                     } else {
-                        log.error("Duplicate root component: {}", initializedComponent.getComponentName());
+                        log.warn("Duplicate root component: {}", initializedComponent.getComponentName());
                         InitializedComponent existInitializedComponent = componentsRoot.get(initializedComponent.getComponentName());
                         existInitializedComponent.insertChildren(initializedComponent.getChildren());
                     }

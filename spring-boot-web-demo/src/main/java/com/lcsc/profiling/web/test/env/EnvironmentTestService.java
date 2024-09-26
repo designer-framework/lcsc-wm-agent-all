@@ -22,7 +22,7 @@ public class EnvironmentTestService implements ApplicationContextAware, Applicat
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.error("[EnvironmentTest-SpringWebDemo] ApplicationName: {}, Args: {}", applicationContext.getId(), args.getSourceArgs());
+        log.warn("[EnvironmentTest-SpringWebDemo] ApplicationName: {}, Args: {}", applicationContext.getId(), args.getSourceArgs());
     }
 
 }

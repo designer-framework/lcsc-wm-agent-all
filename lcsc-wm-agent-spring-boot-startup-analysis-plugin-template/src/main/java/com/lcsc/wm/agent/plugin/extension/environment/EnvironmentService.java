@@ -19,7 +19,7 @@ public class EnvironmentService implements ApplicationRunner, EnvironmentAware, 
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.error("[EnvironmentTest-SpringAgent] ApplicationName: {}, Args: {}", applicationContext.getId(), args.getSourceArgs());
+        log.warn("[EnvironmentTest-SpringAgent] ApplicationName: {}, Args: {}", applicationContext.getId(), args.getSourceArgs());
     }
 
 }
