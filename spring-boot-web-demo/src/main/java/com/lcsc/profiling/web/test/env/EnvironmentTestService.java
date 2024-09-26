@@ -6,6 +6,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Service;
 
 /**
  * @description:
@@ -14,6 +15,7 @@ import org.springframework.context.ApplicationContextAware;
  */
 @Slf4j
 @Setter
+@Service
 public class EnvironmentTestService implements ApplicationContextAware, ApplicationRunner {
 
     private ApplicationContext applicationContext;

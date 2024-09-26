@@ -14,24 +14,7 @@
    有什么办法能在不侵入用户代码的情况下实现监控?
 6. 是否能有一个易用且具有一定拓展性的应用启动耗时分析工具来帮助我解决上述问题?
 
-### 快速开始
-
-#### 1. 使用`spring-agent`
-
-* 安装好maven, 切记关闭maven的多线程打包, 然后运行 `mvn clean package`,
-  最后在需要进行性能分析的应用JVM启动参数中添加`-javaagent`配置, 示例如下：
-    * `java -javaagent:D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar=;spring.application.name=SpringAgent -jar spring-boot-web-demo-1.0.0.jar`
-
-```
-    
-  javaAgent配置说明:
-        1. 前半部分为`SpringAgent`jar包所在的路径, 通常在当前maven项目的`lcsc-wm-agent-packaging/target/agent-bin`路径下  
-            示例: D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar=;spring.application.name=SpringAgent
-        2. 为`SpringAgent`应用添加应用启动参数 `myKey=myVal`, 在jar包路径后追加参数: myKey=myVal, 效果类似JVM启动参数 -Dspring.application.name=SpringAgent`
-            例如: D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar=;spring.application.name=SpringAgent
-```
-
-#### 2. `SpringAgent`目录结构
+#### 1. `SpringAgent`目录结构
 
 * 目录结构
 
@@ -55,6 +38,21 @@
         |--- spring-boot-web-demo                                       * 应用启动耗时性能分析示例项目
         |------------> 1. 启动项目时增加JVM启动参数 -Denv=DEV -javaagent:此处改成lcsc-wm-agent-core.jar包的绝对路径, 请修改Apollo配置中心服务端配置项
         ------------------------------------------------------------------------------------------------------------------------------------
+
+#### 2. 使用`spring-agent`
+
+* 安装好maven, 切记关闭maven的多线程打包, 然后运行 `mvn clean package`,
+  最后在需要进行性能分析的应用JVM启动参数中添加`-javaagent`配置, 示例如下：
+    * `java -javaagent:D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar=;spring.application.name=SpringAgent -jar spring-boot-web-demo-1.0.0.jar`
+
+```
+    
+  javaAgent配置说明:
+        1. 前半部分为`SpringAgent`jar包所在的路径, 通常在当前maven项目的`lcsc-wm-agent-packaging/target/agent-bin`路径下  
+            示例: D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar=;spring.application.name=SpringAgent
+        2. 为`SpringAgent`应用添加应用启动参数 `myKey=myVal`, 在jar包路径后追加参数: myKey=myVal, 效果类似JVM启动参数 -Dspring.application.name=SpringAgent`
+            例如: D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar=;spring.application.name=SpringAgent
+```
 
 #### 备注:
 

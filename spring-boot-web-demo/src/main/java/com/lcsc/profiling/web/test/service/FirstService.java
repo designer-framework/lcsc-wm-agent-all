@@ -1,17 +1,16 @@
-package com.lcsc.profiling.web.test.copy;
+package com.lcsc.profiling.web.test.service;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.convert.ConverterRegistry;
-import cn.hutool.core.util.ClassLoaderUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
 import javax.annotation.PostConstruct;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,20 +19,24 @@ import java.util.concurrent.TimeUnit;
 /**
  * @description:
  * @author: Designer
- * @date : 2024-09-25 22:23
+ * @date : 2024-09-27 02:54
  */
 @Slf4j
-public class BeanCopyTestService implements InitializingBean, SmartInitializingSingleton {
+@Service
+public class FirstService implements InitializingBean, SmartInitializingSingleton {
+
+    @Autowired
+    private SecondService secondService;
 
     /**
      * 拷贝对象中的集合(集合中2万个对象)
      *
      * @param args
-     * @see ConverterRegistry#convert(Type, Object, Object, boolean)
-     * @see ClassLoaderUtil#doLoadClass(String, ClassLoader, boolean)
+     * @see cn.hutool.core.convert.ConverterRegistry#convert(java.lang.reflect.Type, java.lang.Object, java.lang.Object, boolean)
+     * @see cn.hutool.core.util.ClassLoaderUtil#doLoadClass(java.lang.String, java.lang.ClassLoader, boolean)
      */
     public static void main(String[] args) {
-        new BeanCopyTestService().copy();
+        new FirstService().copy();
     }
 
     @PostConstruct
@@ -41,7 +44,7 @@ public class BeanCopyTestService implements InitializingBean, SmartInitializingS
         Source source = new Source();
 
         List<Source> sources = new ArrayList<>();
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 2000; i++) {
             sources.add(new Source());
         }
 

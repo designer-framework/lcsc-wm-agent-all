@@ -15,7 +15,7 @@ public class SmartInitializingSingletonService implements SmartInitializingSingl
     @SneakyThrows
     @Override
     public void afterSingletonsInstantiated() {
-        Thread.sleep(577);
+        Thread.sleep(777);
     }
 
 }
