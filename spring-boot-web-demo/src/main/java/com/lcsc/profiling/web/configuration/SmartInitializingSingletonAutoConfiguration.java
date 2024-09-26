@@ -1,8 +1,8 @@
 package com.lcsc.profiling.web.configuration;
 
 import com.lcsc.profiling.web.annotation.Test;
+import com.lcsc.profiling.web.test.lifecycle.SmartInitializingSingletonService;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,19 +13,18 @@ import org.springframework.context.annotation.Configuration;
  */
 @Test
 @Configuration
-public class TestConfig implements SmartInitializingSingleton {
+public class SmartInitializingSingletonAutoConfiguration {
 
     @Bean
     @SneakyThrows
-    String stringBean() {
+    String sleep66msBean() {
         Thread.sleep(66);
-        return "";
+        return "66ms";
     }
 
-    @SneakyThrows
-    @Override
-    public void afterSingletonsInstantiated() {
-        Thread.sleep(66);
+    @Bean
+    public SmartInitializingSingletonService smartInitializingSingletonService() {
+        return new SmartInitializingSingletonService();
     }
 
 }

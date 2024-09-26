@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.lcsc.profiling.web.configuration.TestConfig
+com.lcsc.profiling.web.configuration.SmartInitializingSingletonAutoConfiguration,\
+com.lcsc.profiling.web.configuration.TestAgentAutoConfiguration

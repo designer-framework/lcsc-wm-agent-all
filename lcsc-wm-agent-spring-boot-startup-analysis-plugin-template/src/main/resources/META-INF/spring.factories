@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.lcsc.wm.agent.plugin.extisons.configuration.ClassReTransformPluginExtensionAutoConfiguration,\
-  com.lcsc.wm.agent.plugin.extisons.configuration.MethodInvokePluginExtensionAutoConfiguration
+  com.lcsc.wm.agent.plugin.extisons.configuration.MethodInvokePluginExtensionAutoConfiguration,\
+  com.lcsc.wm.agent.plugin.extisons.configuration.EnvTestAutoConfiguration
