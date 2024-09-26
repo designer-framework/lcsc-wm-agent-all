@@ -20,18 +20,15 @@
 
 * 安装好maven, 切记关闭maven的多线程打包, 然后运行 `mvn clean package`,
   最后在需要进行性能分析的应用JVM启动参数中添加`-javaagent`配置, 示例如下：
-
-    * java -javaagent:D:
-      \TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar=myKey=myVal -jar
-      spring-boot-web-demo-1.0.0.jar
+    * `java -javaagent:D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar=;spring.application.name=SpringAgent -jar spring-boot-web-demo-1.0.0.jar`
 
 ```
     
   javaAgent配置说明:
         1. 前半部分为`SpringAgent`jar包所在的路径, 通常在当前maven项目的`lcsc-wm-agent-packaging/target/agent-bin`路径下  
-            示例: D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar
-        2. 为`SpringAgent`应用添加应用启动参数 `myKey=myVal`, 在jar包路径后追加参数: myKey=myVal, 效果类似JVM启动参数 -DmyKey=myVal`
-            例如: D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar=myKey=myVal
+            示例: D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar=;spring.application.name=SpringAgent
+        2. 为`SpringAgent`应用添加应用启动参数 `myKey=myVal`, 在jar包路径后追加参数: myKey=myVal, 效果类似JVM启动参数 -Dspring.application.name=SpringAgent`
+            例如: D:\TeamWork\lcsc-wm-agent-all\lcsc-wm-agent-packaging\target\agent-bin\lcsc-wm-agent.jar=;spring.application.name=SpringAgent
 ```
 
 #### 2. `SpringAgent`目录结构

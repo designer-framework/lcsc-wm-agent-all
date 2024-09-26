@@ -1,4 +1,4 @@
-package com.lcsc.wm.agent.plugin.extisons.configuration;
+package com.lcsc.wm.agent.plugin.extension.configuration;
 
 import com.alibaba.bytekit.agent.inst.Instrument;
 import com.lcsc.wm.agent.core.annotation.EnabledInstrument;

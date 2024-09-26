@@ -1,4 +1,4 @@
-package com.lcsc.wm.agent.plugin.extisons.interceptor;
+package com.lcsc.wm.agent.plugin.extension.interceptor;
 
 import com.alibaba.bytekit.asm.binding.Binding;
 import com.alibaba.bytekit.asm.interceptor.annotation.AtEnter;

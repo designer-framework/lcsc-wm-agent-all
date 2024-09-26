@@ -1,7 +1,5 @@
 package com.lcsc.wm.agent.plugin.core.configuration;
 
-import com.lcsc.wm.agent.core.annotation.EnabledMethodInvokeWatch;
-import com.lcsc.wm.agent.core.annotation.MethodInvokeWatch;
 import com.lcsc.wm.agent.framework.vo.ClassMethodInfo;
 import com.lcsc.wm.agent.plugin.core.analysis.bean.SpringBeanCreationPointcutAdvisor;
 import com.lcsc.wm.agent.plugin.core.vo.SpringAgentStatistics;
@@ -14,12 +12,6 @@ import org.springframework.context.annotation.Configuration;
  * @date : 2024-07-26 23:04
  */
 @Configuration(proxyBeanMethods = false)
-@EnabledMethodInvokeWatch({
-        //spring-boot3.2.0+= 类加载器
-        @MethodInvokeWatch("org.springframework.boot.loader.launch.LaunchedClassloader#loadClass(java.lang.String, boolean)"),
-        //spring-boot3.2.0- 类加载器
-        @MethodInvokeWatch("org.springframework.boot.loader.LaunchedURLClassLoader#loadClass(java.lang.String, boolean)"),
-})
 public class SpringMethodInvokeAutoConfiguration {
 
     /**

@@ -4,6 +4,7 @@ import com.alibaba.bytekit.utils.ClassLoaderUtils;
 import com.lcsc.wm.agent.plugin.core.enums.StatisticsEnum;
 import com.lcsc.wm.agent.plugin.core.vo.ClassLoaderJarsVO;
 import com.lcsc.wm.agent.plugin.core.vo.SpringAgentStatistics;
+import org.springframework.util.ResourceUtils;
 
 import java.lang.instrument.Instrumentation;
 import java.net.URL;
@@ -72,7 +73,7 @@ public class ClassLoaderLoadJarStatisticsBuilder implements StatisticsBuilder {
 
             URL location = codeSource.getLocation();
             //过滤出jar包
-            if (location == null || !location.toString().endsWith(".jar")) {
+            if (location == null || !(location.toString().endsWith(".jar") || ResourceUtils.isJarURL(location))) {
                 continue;
             }
 

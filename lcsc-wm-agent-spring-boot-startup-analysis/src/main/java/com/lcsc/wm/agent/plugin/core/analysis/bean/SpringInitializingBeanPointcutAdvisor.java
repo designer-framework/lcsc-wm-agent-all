@@ -70,6 +70,11 @@ public class SpringInitializingBeanPointcutAdvisor extends AbstractComponentChil
     }
 
     @Override
+    protected Object[] getParams(InvokeVO invokeVO) {
+        return new String[]{invokeVO.getTarget().getClass().getName()};
+    }
+
+    @Override
     protected String childName(InvokeVO invokeVO) {
         return invokeVO.getTarget().getClass().getName();
     }

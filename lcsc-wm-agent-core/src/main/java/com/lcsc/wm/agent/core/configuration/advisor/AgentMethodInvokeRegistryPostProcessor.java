@@ -35,7 +35,7 @@ public class AgentMethodInvokeRegistryPostProcessor implements BeanDefinitionReg
 
         Binder.get(environment)
                 //将配置绑定到对象上
-                .bind("spring.agent.trace", AgentMethodInvokeProperties.class)
+                .bind("spring.agent.method-invoke", AgentMethodInvokeProperties.class)
                 .ifBound(agentMethodInvokeProperties -> {
 
                     //将性能分析Bean的Definition注入到容器中

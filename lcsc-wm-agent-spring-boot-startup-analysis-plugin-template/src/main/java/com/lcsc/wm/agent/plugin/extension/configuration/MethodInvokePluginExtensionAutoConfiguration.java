@@ -1,10 +1,11 @@
-package com.lcsc.wm.agent.plugin.extisons.configuration;
+package com.lcsc.wm.agent.plugin.extension.configuration;
 
 import com.lcsc.wm.agent.core.advisor.SimpleMethodInvokePointcutAdvisor;
 import com.lcsc.wm.agent.core.annotation.EnabledMethodInvokeWatch;
 import com.lcsc.wm.agent.core.annotation.MethodInvokeWatch;
 import com.lcsc.wm.agent.framework.vo.ClassMethodInfo;
-import com.lcsc.wm.agent.plugin.extisons.interceptor.PrintMethodInvokeSpyInterceptorApi;
+import com.lcsc.wm.agent.plugin.extension.interceptor.PrintMethodInvokeSpyInterceptorApi;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -20,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
 })
 public class MethodInvokePluginExtensionAutoConfiguration {
 
-    //@Bean
+    @Bean
     public SimpleMethodInvokePointcutAdvisor demoPointcutAdvisor() {
         return new SimpleMethodInvokePointcutAdvisor(
                 ClassMethodInfo.create("org.springframework.boot.SpringApplicationBannerPrinter#print(org.springframework.core.env.Environment, java.lang.Class, java.io.PrintStream)")

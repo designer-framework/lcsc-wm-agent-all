@@ -6,8 +6,8 @@ import cn.hutool.core.util.ClassLoaderUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.util.StopWatch;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +15,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @description:
@@ -22,7 +23,7 @@ import java.util.List;
  * @date : 2024-09-25 22:23
  */
 @Slf4j
-public class BeanCopyTestService implements ApplicationRunner {
+public class BeanCopyTestService implements InitializingBean, SmartInitializingSingleton {
 
     /**
      * 拷贝对象中的集合(集合中2万个对象)
@@ -40,28 +41,33 @@ public class BeanCopyTestService implements ApplicationRunner {
         Source source = new Source();
 
         List<Source> sources = new ArrayList<>();
-        for (int i = 0; i < 3000; i++) {
+        for (int i = 0; i < 200; i++) {
             sources.add(new Source());
         }
 
         source.setField02(sources);
 
         Target target = new Target();
-        StopWatch stopWatch = new StopWatch();
+        StopWatch stopWatch = new StopWatch("BeanCopyTest");
 
-        stopWatch.start("spring");
+        stopWatch.start("Spring");
         BeanUtils.copyProperties(source, target);
         stopWatch.stop();
+        log.error("SpringTaskTimeMillis: {}/ms", TimeUnit.NANOSECONDS.toMillis(stopWatch.getLastTaskTimeNanos()));
 
-        stopWatch.start("hutool");
+        stopWatch.start("Hutool");
         BeanUtil.copyProperties(source, target);
         stopWatch.stop();
-
-        log.error(stopWatch.prettyPrint());
+        log.error("HutoolTaskTimeMillis: {}/ms", TimeUnit.NANOSECONDS.toMillis(stopWatch.getLastTaskTimeNanos()));
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void afterPropertiesSet() throws Exception {
+        copy();
+    }
+
+    @Override
+    public void afterSingletonsInstantiated() {
         copy();
     }
 

@@ -1,4 +1,4 @@
-package com.lcsc.wm.agent.plugin.extisons.test.env;
+package com.lcsc.wm.agent.plugin.extension.environment;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import org.springframework.core.env.Environment;
 
 @Setter
 @Slf4j
-public class EnvironmentTestService implements ApplicationRunner, EnvironmentAware, ApplicationContextAware {
+public class EnvironmentService implements ApplicationRunner, EnvironmentAware, ApplicationContextAware {
 
     private Environment environment;
 

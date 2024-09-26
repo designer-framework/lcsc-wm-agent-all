@@ -15,7 +15,7 @@ spring:
     class-loaders:
       enhance-loaders:
         - java.lang.ClassLoader
-    #火焰图数据采集, 默认不开启
+    #火焰图数据采集, 默认开启
     flame-graph:
       enabled: true
       high-precision: false
@@ -30,10 +30,10 @@ spring:
     #方法调用统计
     method-invoke:
       advisors:
-        - method: java.net.URLClassLoader#findResource(java.lang.String)
-          can-retransform: true
-        #- method: sun.misc.Launcher$AppClassLoader#loadClass(java.lang.String, boolean)
-        #  can-retransform: true
+      #- method: com.lcsc.profiling.web.test.env.EnvironmentTestService#run(org.springframework.boot.ApplicationArguments)
+      #- pointcut-advisor: com.lcsc.wm.agent.core.advisor.IgnoreExceptionMethodInvokePointcutAdvisor
+      #  method: java.net.URLClassLoader#findResource(java.lang.String)
+      #  can-retransform: true
     #启动速度优化
     turbo:
       enabled-by-default: false
@@ -45,3 +45,4 @@ logging:
   level:
     root: info
     com.lcsc.wm.agent.core: info
+    com.lcsc.wm.agent.framework.interceptor.AbstractMethodInvokeInterceptor: error

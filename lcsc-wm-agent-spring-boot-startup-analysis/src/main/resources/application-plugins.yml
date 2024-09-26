@@ -2,9 +2,5 @@ spring:
   profiles:
     include: plugins-extension
   agent:
-    #方法调用统计
-    method-invoke:
-      #屏蔽类加载器增强
-      advisors:
     turbo:
       enabled-by-default: false

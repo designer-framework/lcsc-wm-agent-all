@@ -17,9 +17,9 @@ public class SmartInitializingSingletonAutoConfiguration {
 
     @Bean
     @SneakyThrows
-    String sleep66msBean() {
-        Thread.sleep(66);
-        return "66ms";
+    String sleep166msBean() {
+        Thread.sleep(166);
+        return "166ms";
     }
 
     @Bean

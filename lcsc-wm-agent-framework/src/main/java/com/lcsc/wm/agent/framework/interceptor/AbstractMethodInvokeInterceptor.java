@@ -33,15 +33,15 @@ public abstract class AbstractMethodInvokeInterceptor implements InvokeIntercept
     }
 
     @Override
-    public void afterThrowing(InvokeVO invokeVO) throws Throwable {
+    public final void afterThrowing(InvokeVO invokeVO) {
         if (isReady(invokeVO)) {
             atAfterThrowing(invokeVO);
         }
     }
 
-    protected final void atAfterThrowing(InvokeVO invokeVO) {
-        log.error("调用异常, Class:{}, Method: {}",  invokeVO.getClazz().getName(), invokeVO.getMethodName(), invokeVO.getThrowExp());
+    protected void atAfterThrowing(InvokeVO invokeVO) {
         onThrowing(invokeVO);
+        log.warn("调用异常, Class:{}, Method: {}", invokeVO.getClazz().getName(), invokeVO.getMethodName(), invokeVO.getThrowExp());
     }
 
     protected void onThrowing(InvokeVO invokeVO) {
