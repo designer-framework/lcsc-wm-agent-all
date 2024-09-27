@@ -22,7 +22,7 @@ import java.util.Stack;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Slf4j
-public class SpringBeanCreationPointcutAdvisor extends SimpleMethodInvokePointcutAdvisor implements ApplicationListener<BeanCreationLifeCycleEvent>, DisposableBean, InitializingBean, AgentLifeCycleHook {
+public class SpringBeanCreationPointcutAdvisor extends SimpleMethodInvokePointcutAdvisor implements ApplicationListener<BeanCreationLifeCycleEvent>, DisposableBean, InitializingBean, AgentLifeCycleHook, CreatingBean {
 
     private final AtomicLong ID_GENERATOR = new AtomicLong(1000);
 
@@ -91,7 +91,7 @@ public class SpringBeanCreationPointcutAdvisor extends SimpleMethodInvokePointcu
 
     @Override
     protected String getInvokeKey(InvokeVO invokeVO) {
-        return super.getInvokeKey(invokeVO) + ":" + this.beanCreateStack.get().peek().getId();
+        return super.getInvokeKey(invokeVO) + ":" + beanCreateStack.get().peek().getId();
     }
 
     private SpringBeanVO addBeanTags(InvokeVO invokeVO, SpringBeanVO creatingBean) {
@@ -129,7 +129,7 @@ public class SpringBeanCreationPointcutAdvisor extends SimpleMethodInvokePointcu
 
             BeanAopProxyCreatedLifeCycleEvent beanAopProxyCreatedEvent = (BeanAopProxyCreatedLifeCycleEvent) beanCreationLifeCycleEvent;
 
-            springAgentStatistics.fillBeanCreate(beanAopProxyCreatedEvent.getBeanName(), beanCreateVO -> {
+            springAgentStatistics.fillBeanCreate(getCreatingBeanName(), beanCreateVO -> {
                 beanCreateVO.addBeanLifeCycle(SpringBeanLifeCycleEnum.CreateAopProxyClass, beanAopProxyCreatedEvent.getLifeCycleDurations());
             });
 
@@ -137,8 +137,7 @@ public class SpringBeanCreationPointcutAdvisor extends SimpleMethodInvokePointcu
 
             PostConstructMethodInvokeLifeCycleEvent beanInitMethodInvokeEvent = (PostConstructMethodInvokeLifeCycleEvent) beanCreationLifeCycleEvent;
 
-            SpringBeanVO springBeanVO = beanCreateStack.get().peek();
-            springAgentStatistics.fillBeanCreate(springBeanVO.getName(), beanCreateVO -> {
+            springAgentStatistics.fillBeanCreate(getCreatingBeanName(), beanCreateVO -> {
                 beanCreateVO.addBeanLifeCycle(SpringBeanLifeCycleEnum.PostConstruct, beanInitMethodInvokeEvent.getLifeCycleDurations());
             });
 
@@ -146,8 +145,7 @@ public class SpringBeanCreationPointcutAdvisor extends SimpleMethodInvokePointcu
 
             InitializingBeanMethodInvokeLifeCycleEvent initializingBeanMethodInvokeLifeCycleEvent = (InitializingBeanMethodInvokeLifeCycleEvent) beanCreationLifeCycleEvent;
 
-            SpringBeanVO springBeanVO = beanCreateStack.get().peek();
-            springAgentStatistics.fillBeanCreate(springBeanVO.getName(), beanCreateVO -> {
+            springAgentStatistics.fillBeanCreate(getCreatingBeanName(), beanCreateVO -> {
                 beanCreateVO.addBeanLifeCycle(SpringBeanLifeCycleEnum.AfterPropertiesSet, initializingBeanMethodInvokeLifeCycleEvent.getLifeCycleDurations());
             });
 
@@ -181,6 +179,16 @@ public class SpringBeanCreationPointcutAdvisor extends SimpleMethodInvokePointcu
     @Override
     public int getOrder() {
         return LifeCycleOrdered.SPRING_APPLICATION_INFO;
+    }
+
+    @Override
+    public String getCreatingBeanName() {
+        SpringBeanVO creatingBeanName = beanCreateStack.get().peek();
+        if (creatingBeanName != null) {
+            return creatingBeanName.getName();
+        } else {
+            throw new IllegalStateException("Does not exist creating bean");
+        }
     }
 
 }

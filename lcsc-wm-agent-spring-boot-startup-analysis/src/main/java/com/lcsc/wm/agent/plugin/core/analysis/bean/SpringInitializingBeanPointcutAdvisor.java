@@ -21,6 +21,8 @@ import org.springframework.beans.factory.InitializingBean;
 import java.agent.SpyAPI;
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @see org.springframework.beans.factory.InitializingBean
@@ -29,14 +31,19 @@ import java.util.Collections;
  */
 public class SpringInitializingBeanPointcutAdvisor extends AbstractComponentChildCreatorPointcutAdvisor implements DisposableBean, InitializingBean {
 
+    private final CreatingBean creatingBean;
+
+    private final ThreadLocal<Map<Integer, Long>> initialized = ThreadLocal.withInitial(HashMap::new);
+
     /**
      * @param componentEnum
      * @param classMethodInfo
      * @param interceptor
      * @see org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeInitMethods(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)
      */
-    public SpringInitializingBeanPointcutAdvisor(ComponentEnum componentEnum, ClassMethodInfo classMethodInfo, Class<? extends SpyInterceptorApi> interceptor) {
+    public SpringInitializingBeanPointcutAdvisor(ComponentEnum componentEnum, ClassMethodInfo classMethodInfo, Class<? extends SpyInterceptorApi> interceptor, CreatingBean creatingBean) {
         super(componentEnum, classMethodInfo, interceptor);
+        this.creatingBean = creatingBean;
     }
 
     @Override
@@ -47,15 +54,20 @@ public class SpringInitializingBeanPointcutAdvisor extends AbstractComponentChil
         );
     }
 
-    @SneakyThrows
     @Override
-    public boolean isReady(InvokeVO invokeVO) {
-        return super.isReady(invokeVO);
+    public void before(InvokeVO invokeVO) throws Throwable {
+        this.initialized.get().computeIfAbsent(System.identityHashCode(invokeVO.getTarget()), key -> invokeVO.getInvokeId());
+        super.before(invokeVO);
     }
 
     @Override
-    protected void atMethodInvokeBefore(InvokeVO invokeVO, MethodInvokeVO methodInvokeVO) {
-        super.atMethodInvokeBefore(invokeVO, methodInvokeVO);
+    public boolean isReady(InvokeVO invokeVO) {
+        return super.isReady(invokeVO) && creatingBean.getCreatingBeanName() != null && this.initialized.get().get(System.identityHashCode(invokeVO.getTarget())) == invokeVO.getInvokeId();
+    }
+
+    @Override
+    protected void atBefore(InvokeVO invokeVO) {
+        super.atBefore(invokeVO);
     }
 
     @Override
@@ -65,18 +77,25 @@ public class SpringInitializingBeanPointcutAdvisor extends AbstractComponentChil
         //记录耗时
         BeanLifeCycleDuration beanLifeCycleDuration = BeanLifeCycleDuration.create(invokeVO.getClazz().getName() + "#afterPropertiesSet", methodInvokeVO);
         applicationEventPublisher.publishEvent(
-                new InitializingBeanMethodInvokeLifeCycleEvent(this, invokeVO.getClazz().getName(), beanLifeCycleDuration)
+                new InitializingBeanMethodInvokeLifeCycleEvent(this, creatingBean.getCreatingBeanName(), beanLifeCycleDuration)
         );
+
     }
 
     @Override
     protected Object[] getParams(InvokeVO invokeVO) {
-        return new String[]{invokeVO.getTarget().getClass().getName()};
+        return new String[]{creatingBean.getCreatingBeanName()};
     }
 
     @Override
     protected String childName(InvokeVO invokeVO) {
-        return invokeVO.getTarget().getClass().getName();
+        return creatingBean.getCreatingBeanName();
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        initialized.remove();
     }
 
     public static class InitializingBeanSpyInterceptorApi implements SpyInterceptorApi {

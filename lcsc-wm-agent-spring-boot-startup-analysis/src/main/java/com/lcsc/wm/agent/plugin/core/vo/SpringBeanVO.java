@@ -21,13 +21,15 @@ import java.util.*;
 public class SpringBeanVO extends DurationVO {
 
     /**
+     * 当前Bean的ID
+     */
+    private final long id;
+
+    /**
      * 当前bean的名字
      */
     private final String name;
-    /**
-     * 当前Bean的ID
-     */
-    private long id;
+
     /**
      * 随着当前bean的初始化而加载的子bean
      */

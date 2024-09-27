@@ -2,10 +2,7 @@ package com.lcsc.wm.agent.plugin.core.configuration;
 
 import com.lcsc.wm.agent.core.interceptor.SimpleSpyInterceptorApi;
 import com.lcsc.wm.agent.framework.vo.ClassMethodInfo;
-import com.lcsc.wm.agent.plugin.core.analysis.bean.InitializingSingletonsPointcutAdvisor;
-import com.lcsc.wm.agent.plugin.core.analysis.bean.SpringBeanAopProxyPointcutAdvisor;
-import com.lcsc.wm.agent.plugin.core.analysis.bean.SpringInitAnnotationBeanPointcutAdvisor;
-import com.lcsc.wm.agent.plugin.core.analysis.bean.SpringInitializingBeanPointcutAdvisor;
+import com.lcsc.wm.agent.plugin.core.analysis.bean.*;
 import com.lcsc.wm.agent.plugin.core.analysis.component.*;
 import com.lcsc.wm.agent.plugin.core.enums.SpringComponentEnum;
 import com.lcsc.wm.agent.plugin.core.vo.SpringAgentStatistics;
@@ -130,12 +127,13 @@ public class SpringComponentMethodInvokeAutoConfiguration {
      * @see org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeInitMethods(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)
      */
     @Bean
-    public SpringInitializingBeanPointcutAdvisor springInitializingBeanPointcutAdvisor() {
+    public SpringInitializingBeanPointcutAdvisor springInitializingBeanPointcutAdvisor(CreatingBean creatingBean) {
         return new SpringInitializingBeanPointcutAdvisor(
                 SpringComponentEnum.INITIALIZING_BEAN
                 //, ClassMethodInfo.create("org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeInitMethods(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)")
                 , ClassMethodInfo.create("**#afterPropertiesSet()")
                 , SpringInitializingBeanPointcutAdvisor.InitializingBeanSpyInterceptorApi.class
+                , creatingBean
         );
     }
 

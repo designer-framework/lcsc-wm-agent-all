@@ -23,7 +23,9 @@ public class SpringAgentStatisticsVO extends AgentStatisticsVO implements Spring
 
     @Override
     public void fillBeanCreate(String beanName, Consumer<SpringBeanVO> consumer) {
-        consumer.accept(createdBeansMap.get(beanName));
+        if (beanName != null) {
+            consumer.accept(createdBeansMap.get(beanName));
+        }
     }
 
     @Override
