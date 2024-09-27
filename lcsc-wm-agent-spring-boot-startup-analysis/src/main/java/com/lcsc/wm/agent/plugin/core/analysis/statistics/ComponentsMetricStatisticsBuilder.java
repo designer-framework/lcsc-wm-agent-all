@@ -15,6 +15,7 @@ import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @description:
@@ -44,12 +45,33 @@ public class ComponentsMetricStatisticsBuilder implements StatisticsBuilder {
                 initializedComponent.updateDurationByChildren();
             }
         });
-        rootMetric.addChildren(JSONObject.parseObject(
-                JSON.toJSONString(initializedComponents), new TypeReference<List<InitializedComponentsMetric>>() {
-                }
-        ));
+
+        //过滤子条目中的耗时top20
+        rootMetric.addChildren(filterInitializedComponentsMetricChildrenTop20(initializedComponents));
 
         return fillComponentMetric(rootMetric, true);
+    }
+
+    private List<InitializedComponentsMetric> filterInitializedComponentsMetricChildrenTop20(Collection<InitializedComponent> initializedComponents){
+        List<InitializedComponentsMetric> children = JSONObject.parseObject(
+                JSON.toJSONString(initializedComponents), new TypeReference<List<InitializedComponentsMetric>>() {
+                }
+        );
+        children.forEach(initializedComponentsMetric -> {
+
+            if(initializedComponentsMetric.getChildren().size() >= 20){
+
+                initializedComponentsMetric.setChildren(
+                        initializedComponentsMetric.getChildren().stream()
+                                .sorted(Comparator.comparing(InitializedComponentsMetric::getDuration).reversed())
+                                .collect(Collectors.toList()).subList(0, 20)
+                );
+
+            }
+
+        });
+
+        return children;
     }
 
     /**
